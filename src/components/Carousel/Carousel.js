@@ -11,10 +11,7 @@ const Carousel = ({ media }) => {
 
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [hoveredInfoElement, setHoveredInfoElement] = useState(null);
-  const [isMouseWheelActive, setIsMouseWheelActive] = useState(false);
-  const [carouselPosition, setCarouselPosition] = useState(0);
 
-  // Media Carousel
   useEffect(() => {
     if (!carouselRef.current) return;
     carouselContent.current = carouselRef.current.firstChild;
@@ -22,11 +19,9 @@ const Carousel = ({ media }) => {
 
     const carouselContentClone = carouselContent.current.cloneNode(true);
     carouselRef.current.append(carouselContentClone);
-  }, [media]);
 
-  useEffect(() => {
     const playCarousel = () => {
-      let progress = tweenRef.current ? tweenRef.current.progress() : 0;
+      let progress = tweenRef.current ? tweenRef.current.progress() : 1;
       tweenRef.current && tweenRef.current.progress(0).kill();
 
       const width = parseFloat(
@@ -39,7 +34,7 @@ const Carousel = ({ media }) => {
       tweenRef.current = gsap.fromTo(
         carouselRef.current.children,
         {
-          x: carouselPosition,
+          x: 0,
         },
         {
           x: distanceToTranslate,
@@ -49,15 +44,30 @@ const Carousel = ({ media }) => {
         }
       );
       tweenRef.current.progress(progress);
+    };
 
-      /* if (!isMouseWheelActive) {
+    const handleWheel = (event) => {
+      tweenRef.current.pause();
+
+      let p = tweenRef.current.progress();
+      p += event.deltaY * 0.001;
+
+      tweenRef.current.progress(p);
+
+      setTimeout(() => {
         tweenRef.current.play();
-      } */
+      }, 100);
     };
 
     setTimeout(playCarousel, 500);
 
     window.addEventListener('resize', playCarousel);
+    window.addEventListener('wheel', handleWheel);
+
+    return () => {
+      window.removeEventListener('resize', playCarousel);
+      window.removeEventListener('wheel', handleWheel);
+    };
   }, [media]);
 
   // Mouse Position
@@ -85,45 +95,6 @@ const Carousel = ({ media }) => {
       infoRef.current.style.top = `${mousePosition.y}px`;
     }
   }, [mousePosition]);
-
-  // Mouse Wheel
-  useEffect(() => {
-    const handleWheel = (event) => {
-      setIsMouseWheelActive(true);
-
-      setCarouselPosition((prevPosition) => {
-        const width = parseFloat(
-          getComputedStyle(carouselRef.current.firstChild).getPropertyValue(
-            'width'
-          ),
-          10
-        );
-        return Math.max(prevPosition + event.deltaY, -width * 2);
-      });
-
-      if (tweenRef.current) {
-        tweenRef.current.pause();
-
-        tweenRef.current.progress(carouselPosition);
-
-        tweenRef.current.play();
-      }
-
-      /* const timeout = setTimeout(() => {
-        setIsMouseWheelActive(false);
-      }, 100); */
-
-      return () => {
-        //clearTimeout(timeout);
-      };
-    };
-
-    window.addEventListener('wheel', handleWheel);
-
-    return () => {
-      window.removeEventListener('wheel', handleWheel);
-    };
-  }, []);
 
   return (
     <>
