@@ -1,0 +1,32 @@
+.carousel {
+  display: flex;
+  overflow: hidden;
+  height: 100vh;
+  white-space: nowrap;
+  box-sizing: border-box;
+  width: 100%;
+  background: #f0f0f0;
+
+  &__inner {
+    display: flex;
+  }
+
+  &__item {
+    height: 100%;
+
+    &__media {
+      height: 100%;
+      width: auto;
+    }
+
+  }
+
+}
+
+.info {
+  position: absolute;
+  background-color: red;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}
