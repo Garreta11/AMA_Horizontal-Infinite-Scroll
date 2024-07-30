@@ -6,35 +6,40 @@ import gsap from 'gsap';
 const Carousel = ({ media }) => {
   const carouselRef = useRef();
   const infoRef = useRef();
+  const tweenRef = useRef();
+  const carouselContent = useRef();
+
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [hoveredInfoElement, setHoveredInfoElement] = useState(null);
+  const [isMouseWheelActive, setIsMouseWheelActive] = useState(false);
+  const [carouselPosition, setCarouselPosition] = useState(0);
 
   // Media Carousel
   useEffect(() => {
     if (!carouselRef.current) return;
-    const carouselContent = carouselRef.current.firstChild;
-    if (!carouselContent) return;
+    carouselContent.current = carouselRef.current.firstChild;
+    if (!carouselContent.current) return;
 
-    const carouselContentClone = carouselContent.cloneNode(true);
+    const carouselContentClone = carouselContent.current.cloneNode(true);
     carouselRef.current.append(carouselContentClone);
+  }, [media]);
 
-    let tween;
-
+  useEffect(() => {
     const playCarousel = () => {
-      let progress = tween ? tween.progress() : 0;
-      tween && tween.progress(0).kill();
+      let progress = tweenRef.current ? tweenRef.current.progress() : 0;
+      tweenRef.current && tweenRef.current.progress(0).kill();
 
       const width = parseFloat(
-        getComputedStyle(carouselContent).getPropertyValue('width'),
+        getComputedStyle(carouselContent.current).getPropertyValue('width'),
         10
       );
 
       const distanceToTranslate = -1 * width;
 
-      tween = gsap.fromTo(
+      tweenRef.current = gsap.fromTo(
         carouselRef.current.children,
         {
-          x: 0,
+          x: carouselPosition,
         },
         {
           x: distanceToTranslate,
@@ -43,7 +48,11 @@ const Carousel = ({ media }) => {
           repeat: -1,
         }
       );
-      tween.progress(progress);
+      tweenRef.current.progress(progress);
+
+      /* if (!isMouseWheelActive) {
+        tweenRef.current.play();
+      } */
     };
 
     setTimeout(playCarousel, 500);
@@ -76,6 +85,45 @@ const Carousel = ({ media }) => {
       infoRef.current.style.top = `${mousePosition.y}px`;
     }
   }, [mousePosition]);
+
+  // Mouse Wheel
+  useEffect(() => {
+    const handleWheel = (event) => {
+      setIsMouseWheelActive(true);
+
+      setCarouselPosition((prevPosition) => {
+        const width = parseFloat(
+          getComputedStyle(carouselRef.current.firstChild).getPropertyValue(
+            'width'
+          ),
+          10
+        );
+        return Math.max(prevPosition + event.deltaY, -width * 2);
+      });
+
+      if (tweenRef.current) {
+        tweenRef.current.pause();
+
+        tweenRef.current.progress(carouselPosition);
+
+        tweenRef.current.play();
+      }
+
+      /* const timeout = setTimeout(() => {
+        setIsMouseWheelActive(false);
+      }, 100); */
+
+      return () => {
+        //clearTimeout(timeout);
+      };
+    };
+
+    window.addEventListener('wheel', handleWheel);
+
+    return () => {
+      window.removeEventListener('wheel', handleWheel);
+    };
+  }, []);
 
   return (
     <>
