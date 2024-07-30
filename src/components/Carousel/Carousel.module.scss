@@ -24,9 +24,11 @@
 }
 
 .info {
-  position: absolute;
+  position: fixed;
   background-color: red;
   top: 0;
   left: 0;
   pointer-events: none;
+  text-wrap: nowrap;
+  padding: 10px;
 }
