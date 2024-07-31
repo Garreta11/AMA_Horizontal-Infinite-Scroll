@@ -155,8 +155,9 @@ const Carousel = ({ media }) => {
   }, []);
   useEffect(() => {
     if (infoRef.current) {
-      infoRef.current.style.left = `${mousePosition.x}px`;
-      infoRef.current.style.top = `${mousePosition.y}px`;
+      const { width, height } = infoRef.current.getBoundingClientRect();
+      infoRef.current.style.left = `${mousePosition.x - width / 2}px`;
+      infoRef.current.style.top = `${mousePosition.y - height / 2}px`;
     }
   }, [mousePosition]);
 

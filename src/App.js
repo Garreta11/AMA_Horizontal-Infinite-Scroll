@@ -6,32 +6,32 @@ function App() {
     {
       src: '/img1.jpg',
       type: 'image',
-      info: 'Lorem Ipsum #1',
+      info: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent mauris.',
     },
     {
       src: '/img2.jpg',
       type: 'image',
-      info: 'Lorem Ipsum #2',
+      info: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras ultricies ligula sed magna dictum porta. Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Nulla porttitor accumsan tincidunt. Proin eget tortor risus.',
     },
     {
       src: '/video1.mp4',
       type: 'video',
-      info: 'Lorem Ipsum #3',
+      info: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eget tortor risus. Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Curabitur aliquet quam id dui posuere blandit. Nulla quis lorem ut libero malesuada feugiat. Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a.',
     },
     {
       src: '/img3.jpg',
       type: 'image',
-      info: 'Lorem Ipsum #4',
+      info: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla porttitor accumsan tincidunt. Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Donec sollicitudin molestie malesuada. Curabitur aliquet quam id dui posuere blandit.',
     },
     {
       src: '/img4.jpg',
       type: 'image',
-      info: 'Lorem Ipsum #5',
+      info: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras ultricies ligula sed magna dictum porta. Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Nulla porttitor accumsan tincidunt. Proin eget tortor risus.',
     },
     {
       src: '/img5.jpg',
       type: 'image',
-      info: 'Lorem Ipsum #6',
+      info: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus suscipit tortor eget felis porttitor volutpat. Curabitur non nulla sit amet nisl tempus convallis quis ac lectus. Proin eget tortor risus. Nulla quis lorem ut libero malesuada feugiat. Donec sollicitudin molestie malesuada.',
     },
   ];
 
