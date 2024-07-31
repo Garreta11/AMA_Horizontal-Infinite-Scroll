@@ -106,8 +106,10 @@ const Carousel = ({ media }) => {
     const handleTouchMove = (event) => {
       touchEndY.current = event.touches[0].clientY;
 
+      console.log(event);
+
       let p = tweenRef.current.progress();
-      p += (touchStartY.current - touchEndY.current) * 0.00005;
+      p += (touchStartY.current - touchEndY.current) * 0.0001;
       tweenRef.current.progress(p);
 
       setTimeout(() => {
