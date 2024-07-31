@@ -30,6 +30,7 @@
     &__media {
       height: 100%;
       width: auto;
+      -webkit-user-drag: none;
       @media (max-width: 768px) {
         width: 100%;
         height: auto;
