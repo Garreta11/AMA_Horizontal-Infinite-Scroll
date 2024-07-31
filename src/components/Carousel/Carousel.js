@@ -3,11 +3,33 @@ import styles from './Carousel.module.scss';
 
 import gsap from 'gsap';
 
+const useIsMobile = () => {
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+  return isMobile;
+};
+
 const Carousel = ({ media }) => {
+  const isMobile = useIsMobile();
+
   const carouselRef = useRef();
   const infoRef = useRef();
   const tweenRef = useRef();
   const carouselContent = useRef();
+
+  const touchStartY = useRef(0);
+  const touchEndY = useRef(0);
 
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [hoveredInfoElement, setHoveredInfoElement] = useState(null);
@@ -28,21 +50,38 @@ const Carousel = ({ media }) => {
         getComputedStyle(carouselContent.current).getPropertyValue('width'),
         10
       );
-
-      const distanceToTranslate = -1 * width;
-
-      tweenRef.current = gsap.fromTo(
-        carouselRef.current.children,
-        {
-          x: 0,
-        },
-        {
-          x: distanceToTranslate,
-          duration: 50,
-          ease: 'none',
-          repeat: -1,
-        }
+      const height = parseFloat(
+        getComputedStyle(carouselContent.current).getPropertyValue('height'),
+        10
       );
+
+      const distanceToTranslate = isMobile ? -1 * height : -1 * width;
+
+      tweenRef.current = isMobile
+        ? gsap.fromTo(
+            carouselRef.current.children,
+            {
+              y: 0,
+            },
+            {
+              y: distanceToTranslate,
+              duration: 50,
+              ease: 'none',
+              repeat: -1,
+            }
+          )
+        : gsap.fromTo(
+            carouselRef.current.children,
+            {
+              x: 0,
+            },
+            {
+              x: distanceToTranslate,
+              duration: 50,
+              ease: 'none',
+              repeat: -1,
+            }
+          );
       tweenRef.current.progress(progress);
     };
 
@@ -59,14 +98,37 @@ const Carousel = ({ media }) => {
       }, 100);
     };
 
+    const handleTouchStart = (event) => {
+      touchStartY.current = event.touches[0].clientY;
+      tweenRef.current.pause();
+    };
+
+    const handleTouchMove = (event) => {
+      touchEndY.current = event.touches[0].clientY;
+
+      let p = tweenRef.current.progress();
+      p += (touchStartY.current - touchEndY.current) * 0.00005;
+      tweenRef.current.progress(p);
+
+      setTimeout(() => {
+        tweenRef.current.play();
+      }, 100);
+    };
+
     setTimeout(playCarousel, 500);
 
     window.addEventListener('resize', playCarousel);
     window.addEventListener('wheel', handleWheel);
 
+    window.addEventListener('touchstart', handleTouchStart);
+    window.addEventListener('touchmove', handleTouchMove);
+
     return () => {
       window.removeEventListener('resize', playCarousel);
       window.removeEventListener('wheel', handleWheel);
+
+      window.removeEventListener('touchstart', handleTouchStart);
+      window.removeEventListener('touchmove', handleTouchMove);
     };
   }, [media]);
 

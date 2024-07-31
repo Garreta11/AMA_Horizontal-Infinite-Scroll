@@ -7,16 +7,33 @@
   width: 100%;
   background: #f0f0f0;
 
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
+
+
   &__inner {
     display: flex;
+    @media (max-width: 768px) {
+      flex-direction: column;
+      touch-action: none;
+    }
   }
 
   &__item {
     height: 100%;
+    @media (max-width: 768px) {
+      width: 100%;
+      height: auto;
+    }
 
     &__media {
       height: 100%;
       width: auto;
+      @media (max-width: 768px) {
+        width: 100%;
+        height: auto;
+      }
     }
 
   }
