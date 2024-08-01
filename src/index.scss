@@ -1,6 +1,11 @@
 * {
   margin: 0;
   padding: 0;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
 }
 
 body {
@@ -10,6 +15,8 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  overscroll-behavior-y: none;
 }
 
 code {

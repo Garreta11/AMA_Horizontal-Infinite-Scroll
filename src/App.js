@@ -1,5 +1,7 @@
 import './App.scss';
 import Carousel from './components/Carousel/Carousel';
+import InfiniteScroll from './components/InfiniteScroll/InfiniteScroll';
+import Slider from './components/Slider/Slider';
 
 function App() {
   const media = [
@@ -37,7 +39,9 @@ function App() {
 
   return (
     <div className='App'>
-      <Carousel media={media} />
+      {/* <Carousel media={media} /> */}
+      {/* <InfiniteScroll media={media} /> */}
+      <Slider media={media} />
     </div>
   );
 }

@@ -144,7 +144,7 @@ const Carousel = ({ media }) => {
       const element = document.elementFromPoint(event.clientX, event.clientY);
       if (!element) return;
       const id = element?.getAttribute('data-id');
-      setHoveredInfoElement(media[id].info);
+      // setHoveredInfoElement(media[id].info);
     };
 
     window.addEventListener('mousemove', handleMouseMove);

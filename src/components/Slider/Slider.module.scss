@@ -1,0 +1,40 @@
+.slider {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+
+  &__wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    display: flex;
+    will-change: transform;
+    @media (max-width: 768px) {
+      flex-direction: column;
+    }
+  }
+
+  &__item {
+    position: relative;
+    height: 100%;
+    @media (max-width: 768px) {
+      width: 100%;
+      height: auto;
+    }
+
+    &__media {
+      height: 100%;
+      width: auto;
+      -webkit-user-drag: none;
+      @media (max-width: 768px) {
+        width: 100%;
+        height: auto;
+      }
+    }
+
+  }
+}
