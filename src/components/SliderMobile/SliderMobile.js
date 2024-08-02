@@ -170,7 +170,7 @@ const SliderMobile = ({ media }) => {
 
     setTimeout(() => {
       const loop = horizontalLoop(boxes, {
-        paused: false,
+        paused: true,
         draggable: true,
         speed: 0.2,
       });
@@ -182,11 +182,7 @@ const SliderMobile = ({ media }) => {
       {media.map((mediaItem, i) => {
         if (mediaItem.type === 'image') {
           return (
-            <div
-              key={i}
-              className={`${styles.slider__item} slider-item`}
-              style={{ width: `${mediaItem.width}px` }}
-            >
+            <div key={i} className={`${styles.slider__item} slider-item`}>
               <img
                 className={styles.slider__item__media}
                 src={mediaItem.src}
@@ -197,11 +193,7 @@ const SliderMobile = ({ media }) => {
           );
         } else if (mediaItem.type === 'video') {
           return (
-            <div
-              key={i}
-              className={`${styles.slider__item} slider-item`}
-              style={{ width: `${mediaItem.width}px` }}
-            >
+            <div key={i} className={`${styles.slider__item} slider-item`}>
               <video
                 className={styles.slider__item__media}
                 data-id={i}
