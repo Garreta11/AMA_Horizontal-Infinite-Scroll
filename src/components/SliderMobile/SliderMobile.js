@@ -169,7 +169,11 @@ const SliderMobile = ({ media }) => {
     };
 
     setTimeout(() => {
-      const loop = horizontalLoop(boxes, { paused: true, draggable: true });
+      const loop = horizontalLoop(boxes, {
+        paused: false,
+        draggable: true,
+        speed: 0.2,
+      });
     }, 500);
   }, []);
 
