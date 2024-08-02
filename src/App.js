@@ -1,9 +1,30 @@
 import './App.scss';
-import Carousel from './components/Carousel/Carousel';
-import InfiniteScroll from './components/InfiniteScroll/InfiniteScroll';
+
+import React, { useEffect, useState } from 'react';
+
 import Slider from './components/Slider/Slider';
+import SliderMobile from './components/SliderMobile/SliderMobile';
+
+const useIsMobile = () => {
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+  return isMobile;
+};
 
 function App() {
+  const isMobile = useIsMobile();
+
   const media = [
     {
       src: '/img1.jpg',
@@ -39,9 +60,8 @@ function App() {
 
   return (
     <div className='App'>
-      {/* <Carousel media={media} /> */}
-      {/* <InfiniteScroll media={media} /> */}
-      <Slider media={media} />
+      {!isMobile && <Slider media={media} />}
+      {isMobile && <SliderMobile media={media} />}
     </div>
   );
 }
